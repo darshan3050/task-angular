@@ -1,0 +1,48 @@
+<div id="container" class="container-lg">
+    <h1> To-Do List </h1>
+
+    <div>
+        <form [formGroup]="addTaskForm" (ngSubmit)="addTask">
+            <div class="maindivtask">
+                <input type="text" class="form-control" placeholder="Add New Todo" formControlName="taskinput"
+                    [(ngModel)]="task">
+            </div>
+            <div class="maindiv">
+                <input type="text" class="form-control" placeholder="description" formControlName="taskdiscription"
+                    [(ngModel)]="description">
+            </div>
+            <div class="subdiv" *ngIf="showAdd">
+                <button class="btn btn-warning" (click)=addTask()>Add Task</button>
+            </div>
+            <div class="subdiv" *ngIf="showupdate">
+                <button class="btn btn-warning" (click)=update() [disabled]="!task">Update</button>
+            </div>
+        </form>
+    </div>
+    <table class="table" style="width:100%">
+        <div>
+            <thead class="thead-dark">
+                <tr>
+                    <th class="th" scope="col" width="20%">#</th>
+                    <th class="th" scope="col" width="54%">Task </th>
+                    <th class="th" scope="col" width="17%">Update</th>
+                    <th class="th" scope="col" width="17%">Delete</th>
+                </tr>
+            </thead>
+        </div>
+        <tbody>
+            <div *ngFor="let entry of allEntries">
+                <tr>
+                    <td class="td" width="20%"><input class="td" type="checkbox" value="entry.id"
+                            [checked]="entry.strikethrough" (change)="boxupdate(entry.id)"> </td>
+                    <td class="td" width="60%" [ngClass]="(entry.strikethrough)==false?'td':'td-select'">{{entry.task}}
+                    </td>
+                    <td class="td" width="15%"><button id={{entry.id}} class="btn btn-warning"
+                            (click)="updatetask(entry.id)" [disabled]="isUpdate">Update</button></td>
+                    <td class="td" width="15%"><button class="btn btn-warning" (click)="removetask(entry.id)"
+                            [disabled]="isUpdate">Delete</button></td>
+                </tr>
+            </div>
+        </tbody>
+    </table>
+</div>
